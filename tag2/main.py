@@ -5,7 +5,7 @@ def part1(input):
     max_b = 14
     sum = 0
     for i,line in enumerate(input.splitlines()):
-        game = 0
+        game = i+1
         for color in ["green","red","blue"]:
             for split in line.split(color)[:-1]:
                 if len(split) == 0:
