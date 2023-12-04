@@ -2,7 +2,7 @@
 from itertools import product
 
 
-path = "input_viki.txt"
+path = "input_emi.txt"
 file = open(path,"r")
 input = file.read()
 # contains array with tupel (index,number) for every line
