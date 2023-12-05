@@ -1,41 +1,7 @@
 import numpy
 
-"""input = seeds: 79 14 55 13
 
-seed-to-soil map:
-50 98 2
-52 50 48
-
-soil-to-fertilizer map:
-0 15 37
-37 52 2
-39 0 15
-
-fertilizer-to-water map:
-49 53 8
-0 11 42
-42 0 7
-57 7 4
-
-water-to-light map:
-88 18 7
-18 25 70
-
-light-to-temperature map:
-45 77 23
-81 45 19
-68 64 13
-
-temperature-to-humidity map:
-0 69 1
-1 0 69
-
-humidity-to-location map:
-60 56 37
-56 93 4
-"""
-
-f = open("input_viki.txt", "r")
+f = open("tag5/input_emi.txt", "r")
 input = f.read()
 
 def seeds_part1():
@@ -73,7 +39,7 @@ def get_blocks():
 
 
 def reverse_location_calulation():
-    loc = 75_127_000
+    loc = 0
     current_source = loc
     blocks = get_blocks()
     seeds = seeds_part2()
@@ -95,7 +61,7 @@ def reverse_location_calulation():
 
 
 
-#print("solution part 1:", location_calculation(seeds_part1()))
+print("solution part 1:", location_calculation(seeds_part1()))
 #print("solution part 2:",location_calculation(seeds_part2()))
 #print(len(seeds_part2()))
 print(reverse_location_calulation())
