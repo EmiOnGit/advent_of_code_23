@@ -72,8 +72,8 @@ def part2(input):
     return(sum2)
     
 
-f = open("input_emi.txt", "r")
-# f = open("input_viki.txt", "r")
+#f = open("input_emi.txt", "r")
+f = open("input_viki.txt", "r")
 
 input = f.read()
 print("part1 solution: ", part1(input))
