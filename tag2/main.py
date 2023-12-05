@@ -41,7 +41,7 @@ def part2(input):
     return(sum)
 
 import sys
-f = open("input.txt", "r")
+f = open("input_viki.txt", "r")
 input = f.read()
 print(f"part1 answer: {part1(input)}")
 print(f"part2 answer: {part2(input)}")
