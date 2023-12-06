@@ -1,5 +1,3 @@
-import numpy
-
 
 f = open("tag5/input_emi.txt", "r")
 input = f.read()

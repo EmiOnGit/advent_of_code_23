@@ -25,7 +25,7 @@ def travel_distance(wait_time: int, total_time: int):
     race_time = total_time - wait_time
     return wait_time * race_time
 
-f = open("input_emi.txt", 'r')
+f = open("input_viki.txt", 'r')
 input = f.read()
 (times, records) = parse1(input)
 product = calculate(times, records)
