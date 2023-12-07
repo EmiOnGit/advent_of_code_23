@@ -6,7 +6,7 @@ KK677 28
 KTJJT 220
 QQQJA 483"""
 
-f = open("input_viki.txt","r")
+f = open("input_emi.txt","r")
 input = f.read()
 
 class Type(Enum):
@@ -84,5 +84,4 @@ PART2 = True
 hands = [Hand(line) for line in input.splitlines()]
 hands.sort()
 res = sum([(place+1)*hand.bid for place,hand in enumerate(hands)])
-print(hands)
 print("Final sum part2:",res)
