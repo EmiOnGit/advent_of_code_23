@@ -80,9 +80,9 @@ input = """LR
 22C = (22Z, 22Z)
 22Z = (22B, 22B)
 XXX = (XXX, XXX)"""
-result = part1(*parse("input_emi.txt"))
+result = part1(*parse("input_viki.txt"))
 print(f"part1 result: {result}")
-result = part2(*parse("input_emi.txt"))
+result = part2(*parse("input_viki.txt"))
 print(f"part2 result: {result}")
             
         
