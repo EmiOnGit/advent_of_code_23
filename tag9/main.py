@@ -2,7 +2,7 @@
 1 3 6 10 15 21
 10 13 16 21 30 45"""
 
-f = open("input_viki.txt","r")
+f = open("input_emi.txt","r")
 input = f.read()
 
 def part1():
@@ -36,7 +36,6 @@ def part2():
         value_before = 0
         for value in difference_lists[::-1]:
             value_before = value[0] - value_before
-        print(value_before)
         final_sum += value_before
     return final_sum
 
