@@ -25,13 +25,14 @@ def expand(dimension, expansion_rate):
 def dimension_distance(dim):
     sum = 0
     n = len(dim)
-    print(dim)
-    
-    for i in range(n):
+    # print(dim)
+    n_half = int(n/2)
+    for i in range(n_half):
         x = dim[i]
         y = dim[n-i-1]
-        d = x-y
-        sum += d * i
+        d = y-x
+        factor = n - (i*2) - 1
+        sum += d * factor
     return sum
 
 def distance(dim_x, dim_y):
@@ -48,15 +49,17 @@ input="""...#......
 ..........
 .......#..
 #...#....."""
-# input = f.read()
+input = f.read()
 (dim_x, dim_y) = parse(input)
 expand(dim_x,1)
 expand(dim_y,1)
+# dimension_distance(dim_x)
 d = distance(dim_x, dim_y)
 print("distance is", d)
 
 (dim_x, dim_y) = parse(input)
-expand(dim_x, 1_0)
-expand(dim_y, 1_0)
+expand(dim_x, 1_000_000)
+expand(dim_y, 1_000_000)
 d = distance(dim_x, dim_y)
-print("distance is", d-82)
+n = len(dim_x)
+print("distance is", d - (n * n) - 1)
