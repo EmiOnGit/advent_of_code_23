@@ -25,7 +25,7 @@ def expand(dimension, expansion_rate):
 def dimension_distance(dim):
     sum = 0
     n = len(dim)
-    n_half = int(n/2) + 1
+    n_half = int(n/2) -1
     for i in range(n_half):
         x = dim[i]
         y = dim[n-i-1]
