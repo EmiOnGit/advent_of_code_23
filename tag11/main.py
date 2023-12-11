@@ -18,15 +18,14 @@ def expand(dimension, expansion_rate):
     for i in range(len(dimension)):
         x = dimension[i]
         if x-last > 1:
-            shift += (x-last- 1) * expansion_rate
+            shift += (x-last - 1) * expansion_rate - 1
         dimension[i] += shift
         last = x
 
 def dimension_distance(dim):
     sum = 0
     n = len(dim)
-    # print(dim)
-    n_half = int(n/2)
+    n_half = int(n/2) + 1
     for i in range(n_half):
         x = dim[i]
         y = dim[n-i-1]
@@ -51,15 +50,16 @@ input="""...#......
 #...#....."""
 input = f.read()
 (dim_x, dim_y) = parse(input)
-expand(dim_x,1)
-expand(dim_y,1)
+expand(dim_x,2)
+expand(dim_y,2)
 # dimension_distance(dim_x)
 d = distance(dim_x, dim_y)
 print("distance is", d)
 
 (dim_x, dim_y) = parse(input)
+# expand(dim_x, 1_00)
+# expand(dim_y, 1_00)
 expand(dim_x, 1_000_000)
 expand(dim_y, 1_000_000)
 d = distance(dim_x, dim_y)
-n = len(dim_x)
-print("distance is", d - (n * n) - 1)
+print("distance is", d)
