@@ -73,10 +73,10 @@ def get_valid_combinations_the_maybe_faster_way(combinations,report_row):
 def get_combinations(report_row):
     combinations = []
     spring_arrangement = report_row[0].copy()
-    unknown_values = [i for i,x in enumerate(spring_arrangement) if x==-1]
+    unknown_values = spring_arrangement.count(-1)
     binary_len = len(unknown_values)
-    max_number = int(math.pow(2,binary_len)-1)
-    missing_number_damaged = sum(report_row[1]) - sum([1 for x in spring_arrangement if x == 0])
+    max_number = (1 << binary_len) - 1
+    missing_number_damaged = sum(report_row[1]) - sprint_arrangement.count(0)
 
     for i in range(max_number+1):
         if i.bit_count()==missing_number_damaged:
@@ -110,8 +110,8 @@ def check_all_rows(parsed_input,way="easy"):
 def check_combinations_one_by_one(report_row):
     spring_arrangement = report_row[0].copy()
     unknown_values = [i for i,x in enumerate(spring_arrangement) if x==-1]
-    max_number = int(math.pow(2,len(unknown_values))-1)
-    missing_number_damaged = sum(report_row[1]) - sum([1 for x in spring_arrangement if x == 0])
+    max_number = 1<<len(unknown_values)-1
+    missing_number_damaged = sum(report_row[1]) - spring_arrangement.count(0)
     number_combinations = 0
 
     for i in range(max_number+1):
@@ -162,7 +162,7 @@ if __name__=='__main__':
     print(f"solution part1 (even even faster way): {c} \n completed in {(time.time() - start_time)} seconds")
 
     # PART 2
-    parsed_input = parse(input,part=2,expansion=2)
-    start_time = time.time()
-    c = check_all_rows_in_place(parsed_input)
-    print(f"solution part2 (using fastest way): {c} \n completed in {(time.time() - start_time)} seconds")
+    # parsed_input = parse(input,part=2,expansion=2)
+    # start_time = time.time()
+    # c = in_place_with_multithreading(parsed_input)
+    # print(f"solution part2 (using fastest way): {c} \n completed in {(time.time() - start_time)} seconds")
