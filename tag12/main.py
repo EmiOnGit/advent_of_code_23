@@ -1,5 +1,6 @@
 import math
 import time
+from multiprocessing.pool import Pool
 
 def parse(input):
     row_reports = []
@@ -117,6 +118,10 @@ def check_all_rows_in_place(parsed_input):
         total_combinations += check_combinations_one_by_one(row)
     return total_combinations
 
+def in_place_with_multithreading(parsed_input):
+    with Pool() as p:
+        return sum(p.map(check_combinations_one_by_one, parsed_input))
+    
 
 #print(parsed_input)
 input = """???.### 1,1,3
@@ -126,7 +131,7 @@ input = """???.### 1,1,3
 ????.######..#####. 1,6,5
 ?###???????? 3,2,1"""
 
-f = open("input_viki.txt","r")
+f = open("input.txt","r")
 input = f.read()
 parsed_input = parse(input)
 
@@ -153,3 +158,10 @@ c = check_all_rows_in_place(parsed_input)
 print(f"solution part1 (even faster way): {c} \n completed in {(time.time() - start_time)} seconds")
 
 
+# while calculating all combinations: 
+# checks if all contigous damaged springs fulfill the restrictions 
+# (stops as soon as one restriction is violated)
+# uses multithreading to check all rows at the same time
+start_time = time.time()
+c = in_place_with_multithreading(parsed_input)
+print(f"solution part1 (even even faster way): {c} \n completed in {(time.time() - start_time)} seconds")
