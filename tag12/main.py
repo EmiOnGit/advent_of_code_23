@@ -1,14 +1,20 @@
 import math
 import time
 
-def parse(input):
+def parse(input, part=1):
     row_reports = []
     for line in input.splitlines():
         damaged_count = [int(x) for x in line.split(" ")[1].split(",")]
+        spring_arrangement = line.split(" ")[0]
+
+        if part == 2:
+            damaged_count = damaged_count*5
+            spring_arrangement = '?'.join([spring_arrangement]*5)
         # -1 = ?, 1 = ., 0 = #
-        new_line = line.split(" ")[0].replace("?","2").replace(".","1").replace("#","0")
-        arrangement = [int(char) for char in new_line]
+        replaced_line = spring_arrangement.replace("?","2").replace(".","1").replace("#","0")
+        arrangement = [int(char) for char in replaced_line]
         arrangement = [-1 if x==2 else x for x in arrangement]
+
         row_reports.append([arrangement,damaged_count])
 
     return row_reports
@@ -79,7 +85,13 @@ def get_combinations(report_row):
             combinations.append([x for x in spring_arrangement])
     return combinations
 
-
+# FAST:
+# calculates all combinations
+# stores them in lists 
+# checks if all contigous damaged springs fulfill the restrictions 
+# (stops as soon as one restriction is violated)
+# EASY:
+# does the same as FAST but does not stop early
 def check_all_rows(parsed_input,way="easy"):
     total_number_valid = []
     for row in parsed_input:
@@ -110,7 +122,9 @@ def check_combinations_one_by_one(report_row):
                 number_combinations += 1
     return number_combinations
  
-
+# while calculating all combinations: 
+# checks if all contigous damaged springs fulfill the restrictions 
+# (stops as soon as one restriction is violated)
 def check_all_rows_in_place(parsed_input):
     total_combinations = 0
     for row in parsed_input:
@@ -127,27 +141,16 @@ input = """???.### 1,1,3
 ?###???????? 3,2,1"""
 
 f = open("input_viki.txt","r")
-input = f.read()
+#input = f.read()
 parsed_input = parse(input)
 
-# calculates all combinations 
-# stores them in lists 
-# checks if all contigous damaged springs fulfill the restrictions
+# PART 1
 start_time = time.time()
-c = check_all_rows(parsed_input,way='easy')
-print(f"solution part1 (easy way): {sum(c)} \n completed in {(time.time() - start_time)} seconds")
+c = check_all_rows_in_place(parsed_input)
+print(f"solution part1 (even faster way): {c} \n completed in {(time.time() - start_time)} seconds")
 
-# calculates all combinations
-# stores them in lists 
-# checks if all contigous damaged springs fulfill the restrictions 
-# (stops as soon as one restriction is violated)
-start_time = time.time()
-c = check_all_rows(parsed_input,way='fast')
-print(f"solution part1 (fast way): {sum(c)} \n completed in {(time.time() - start_time)} seconds")
-
-# while calculating all combinations: 
-# checks if all contigous damaged springs fulfill the restrictions 
-# (stops as soon as one restriction is violated)
+# PART 2
+parsed_input = parse(input,part=2)
 start_time = time.time()
 c = check_all_rows_in_place(parsed_input)
 print(f"solution part1 (even faster way): {c} \n completed in {(time.time() - start_time)} seconds")
