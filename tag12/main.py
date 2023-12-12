@@ -1,44 +1,5 @@
 import math
-
-#first example: ???.### 1,1,3
-def get_valid_combinations_pls_dont_look_at_me(combinations,report_row):
-    valid_combinations = 0
-    for org_combination in combinations:
-        # neccesary to check last
-        combination = org_combination.copy()
-        combination.append(1)
-        
-        damaged_count_iter = iter(report_row[1])
-        current_damaged_count = next(damaged_count_iter)
-        damaged_contiguous = -1
-        print("combinatino:", combination)
-        invalid_combination = False
-        for spring in combination:
-            print("spring:",spring)
-            print("current_damaged_count:",current_damaged_count)
-            if spring == 1 and damaged_contiguous!=-1:
-                if current_damaged_count != damaged_contiguous:
-                    invalid_combination = True
-                    print("Found invalid combination")
-                    break
-                else:
-                    try:
-                        current_damaged_count = next(damaged_count_iter)
-                    except:
-                        print("no more segments left")
-                        ()
-                    print("valid segment")
-                damaged_contiguous = -1
-            if spring == 0:
-                if damaged_contiguous == -1:
-                    damaged_contiguous = 0
-                damaged_contiguous += 1
-                print("damaged_contigous:",damaged_contiguous)
-        if not invalid_combination: 
-            print("Valid combination")
-            valid_combinations+=1
-    return valid_combinations
- 
+import time
 
 def parse(input):
     row_reports = []
@@ -52,29 +13,7 @@ def parse(input):
 
     return row_reports
 
-def count_set_bits(n):
-    count = 0
-    while n != 0:
-        count += n&1
-        n = n>>1
-    return count
-
-def get_combinations(report_row):
-    combinations = []
-    unknown_values = [i for i,x in enumerate(report_row[0]) if x==-1]
-    binary_len = len(unknown_values)
-    max_number = int(math.pow(2,binary_len)-1)
-    missing_number_damaged = sum(report_row[1]) - sum([1 for x in report_row[0] if x == 0])
-
-    for i in range(max_number+1):
-        if count_set_bits(i)==missing_number_damaged:
-            for nth_unkown, unknown_index in enumerate(unknown_values):
-                bit_is_one = i&int(math.pow(2,nth_unkown)) != 0
-                report_row[0][unknown_index] = 0 if bit_is_one else 1
-            combinations.append([x for x in report_row[0]])
-    return combinations
-
-       
+    
 def counts_consecutive_zeroes(combination):
     counts = []
     current_count = 0
@@ -88,7 +27,7 @@ def counts_consecutive_zeroes(combination):
         counts.append(current_count)
     return counts
 
-#first example: ???.### 1,1,3
+
 def get_valid_combinations_the_smart_way(combinations,report_row):
     valid_combinations = 0
     for combination in combinations:
@@ -97,13 +36,86 @@ def get_valid_combinations_the_smart_way(combinations,report_row):
             valid_combinations += 1
     return valid_combinations
 
-def check_all_rows(parsed_input):
+
+def check_if_valid_combination(combination, damaged_contigous):
+    current_count = 0
+    damaged_count_iter = iter(damaged_contigous)
+    for num in combination:
+        if num == 0:
+            current_count += 1
+        elif current_count > 0:
+            current_damaged_count = next(damaged_count_iter)
+
+            if current_count != current_damaged_count:
+                return False
+            current_count = 0
+    try:
+        current_damaged_count = next(damaged_count_iter)
+        return current_damaged_count == current_count
+    except:
+        return True
+
+def get_valid_combinations_the_maybe_faster_way(combinations,report_row):
+    valid_combinations = 0
+    for combination in combinations:
+        if check_if_valid_combination(combination,report_row[1]):
+            valid_combinations += 1
+    return valid_combinations
+
+
+def get_combinations(report_row):
+    combinations = []
+    spring_arrangement = report_row[0].copy()
+    unknown_values = [i for i,x in enumerate(spring_arrangement) if x==-1]
+    binary_len = len(unknown_values)
+    max_number = int(math.pow(2,binary_len)-1)
+    missing_number_damaged = sum(report_row[1]) - sum([1 for x in spring_arrangement if x == 0])
+
+    for i in range(max_number+1):
+        if i.bit_count()==missing_number_damaged:
+            for nth_unkown, unknown_index in enumerate(unknown_values):
+                bit_is_one = i&1<<nth_unkown != 0
+                spring_arrangement[unknown_index] = 0 if bit_is_one else 1
+            combinations.append([x for x in spring_arrangement])
+    return combinations
+
+
+def check_all_rows(parsed_input,way="easy"):
     total_number_valid = []
     for row in parsed_input:
         combinations = get_combinations(row)
-        valid_combinations = get_valid_combinations_the_smart_way(combinations,row)
+        if way=="easy":
+            valid_combinations = get_valid_combinations_the_smart_way(combinations,row)
+        elif way=="fast":
+            valid_combinations = get_valid_combinations_the_maybe_faster_way(combinations,row)
+        else:
+            raise Exception("No such way known: " + way)
         total_number_valid.append(valid_combinations)
     return total_number_valid
+
+
+def check_combinations_one_by_one(report_row):
+    spring_arrangement = report_row[0].copy()
+    unknown_values = [i for i,x in enumerate(spring_arrangement) if x==-1]
+    max_number = int(math.pow(2,len(unknown_values))-1)
+    missing_number_damaged = sum(report_row[1]) - sum([1 for x in spring_arrangement if x == 0])
+    number_combinations = 0
+
+    for i in range(max_number+1):
+        if i.bit_count()==missing_number_damaged:
+            for nth_unkown, unknown_index in enumerate(unknown_values):
+                bit_is_one = i&1<<nth_unkown != 0
+                spring_arrangement[unknown_index] = 0 if bit_is_one else 1
+            if check_if_valid_combination(spring_arrangement,report_row[1]):
+                number_combinations += 1
+    return number_combinations
+ 
+
+def check_all_rows_in_place(parsed_input):
+    total_combinations = 0
+    for row in parsed_input:
+        total_combinations += check_combinations_one_by_one(row)
+    return total_combinations
 
 
 #print(parsed_input)
@@ -113,12 +125,31 @@ input = """???.### 1,1,3
 ????.#...#... 4,1,1
 ????.######..#####. 1,6,5
 ?###???????? 3,2,1"""
+
 f = open("input_viki.txt","r")
 input = f.read()
 parsed_input = parse(input)
-print("solution part1: ",sum(check_all_rows(parsed_input)))
 
-# ???.### 1,1,3
-# ???.###????.###????.###????.###????.### 1,1,3,1,1,3,1,1,3,1,1,3,1,1,3
+# calculates all combinations 
+# stores them in lists 
+# checks if all contigous damaged springs fulfill the restrictions
+start_time = time.time()
+c = check_all_rows(parsed_input,way='easy')
+print(f"solution part1 (easy way): {sum(c)} \n completed in {(time.time() - start_time)} seconds")
+
+# calculates all combinations
+# stores them in lists 
+# checks if all contigous damaged springs fulfill the restrictions 
+# (stops as soon as one restriction is violated)
+start_time = time.time()
+c = check_all_rows(parsed_input,way='fast')
+print(f"solution part1 (fast way): {sum(c)} \n completed in {(time.time() - start_time)} seconds")
+
+# while calculating all combinations: 
+# checks if all contigous damaged springs fulfill the restrictions 
+# (stops as soon as one restriction is violated)
+start_time = time.time()
+c = check_all_rows_in_place(parsed_input)
+print(f"solution part1 (even faster way): {c} \n completed in {(time.time() - start_time)} seconds")
 
 
