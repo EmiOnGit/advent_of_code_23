@@ -1,15 +1,16 @@
 import math
 import time
+from multiprocessing.pool import Pool
 
-def parse(input, part=1):
+def parse(input, part=1,expansion=5):
     row_reports = []
     for line in input.splitlines():
         damaged_count = [int(x) for x in line.split(" ")[1].split(",")]
         spring_arrangement = line.split(" ")[0]
 
         if part == 2:
-            damaged_count = damaged_count*5
-            spring_arrangement = '?'.join([spring_arrangement]*5)
+            damaged_count = damaged_count*expansion
+            spring_arrangement = '?'.join([spring_arrangement]*expansion)
         # -1 = ?, 1 = ., 0 = #
         replaced_line = spring_arrangement.replace("?","2").replace(".","1").replace("#","0")
         arrangement = [int(char) for char in replaced_line]
@@ -132,7 +133,12 @@ def check_all_rows_in_place(parsed_input):
     return total_combinations
 
 
-#print(parsed_input)
+# uses multithreading to check all rows at the same time
+def in_place_with_multithreading(parsed_input):
+    with Pool() as p:
+        return sum(p.map(check_combinations_one_by_one, parsed_input))
+    
+
 input = """???.### 1,1,3
 .??..??...?##. 1,1,3
 ?#?#?#?#?#?#?#? 1,3,1,6
@@ -140,19 +146,23 @@ input = """???.### 1,1,3
 ????.######..#####. 1,6,5
 ?###???????? 3,2,1"""
 
-f = open("input_viki.txt","r")
-#input = f.read()
-parsed_input = parse(input)
+if __name__=='__main__':
 
-# PART 1
-start_time = time.time()
-c = check_all_rows_in_place(parsed_input)
-print(f"solution part1 (even faster way): {c} \n completed in {(time.time() - start_time)} seconds")
+    f = open("input.txt","r")
+    input = f.read()
+    parsed_input = parse(input)
 
-# PART 2
-parsed_input = parse(input,part=2)
-start_time = time.time()
-c = check_all_rows_in_place(parsed_input)
-print(f"solution part1 (even faster way): {c} \n completed in {(time.time() - start_time)} seconds")
+    # PART 1
+    start_time = time.time()
+    c = check_all_rows_in_place(parsed_input)
+    print(f"solution part1 (even faster way): {c} \n completed in {(time.time() - start_time)} seconds")
 
+    start_time = time.time()
+    c = in_place_with_multithreading(parsed_input)
+    print(f"solution part1 (even even faster way): {c} \n completed in {(time.time() - start_time)} seconds")
 
+    # PART 2
+    parsed_input = parse(input,part=2,expansion=2)
+    start_time = time.time()
+    c = check_all_rows_in_place(parsed_input)
+    print(f"solution part2 (using fastest way): {c} \n completed in {(time.time() - start_time)} seconds")
