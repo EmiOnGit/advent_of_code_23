@@ -25,7 +25,7 @@ def expand(dimension, expansion_rate):
 def dimension_distance(dim):
     sum = 0
     n = len(dim)
-    n_half = int(n/2) -1
+    n_half = int(n/2) +1
     for i in range(n_half):
         x = dim[i]
         y = dim[n-i-1]
@@ -38,27 +38,14 @@ def distance(dim_x, dim_y):
     return dimension_distance(dim_x) + dimension_distance(dim_y)
 
 f = open("input_emi.txt",'r')
-input="""...#......
-.......#..
-#.........
-..........
-......#...
-.#........
-.........#
-..........
-.......#..
-#...#....."""
 input = f.read()
 (dim_x, dim_y) = parse(input)
 expand(dim_x,2)
 expand(dim_y,2)
-# dimension_distance(dim_x)
 d = distance(dim_x, dim_y)
 print("distance is", d)
 
 (dim_x, dim_y) = parse(input)
-# expand(dim_x, 1_00)
-# expand(dim_y, 1_00)
 expand(dim_x, 1_000_000)
 expand(dim_y, 1_000_000)
 d = distance(dim_x, dim_y)
