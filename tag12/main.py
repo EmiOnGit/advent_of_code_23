@@ -73,7 +73,7 @@ def get_valid_combinations_the_maybe_faster_way(combinations,report_row):
 def get_combinations(report_row):
     combinations = []
     spring_arrangement = report_row[0].copy()
-    unknown_values = spring_arrangement.count(-1)
+    unknown_values = [i for i,x in enumerate(spring_arrangement) if x==-1]
     binary_len = len(unknown_values)
     max_number = (1 << binary_len) - 1
     missing_number_damaged = sum(report_row[1]) - sprint_arrangement.count(0)
