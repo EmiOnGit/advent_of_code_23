@@ -59,26 +59,19 @@ def part1(matrix):
     return find_mirror(matrix,True)
 def part2(matrix):
     return find_mirror(matrix,False)
-@stop_time(1)
-def part1_full(blocks):
-    return sum(map(part1, blocks))
-@stop_time(2)
-def part2_full(blocks):
-    return sum(map(part2, blocks))
+@stop_time
+def part(blocks, solver, multithreading):
+    if not multithreading:
+        return sum(map(solver, blocks))
+    with Pool() as p:
+        return sum(p.map(solver, blocks))
+
 if __name__ == '__main__':
     input = input(splitter = "\n\n")
     blocks = parse(input)
-    blocks = blocks * 200
+    blocks = blocks
     # without multithreading
-    part1_full(blocks)
-    part2_full(blocks)
-
-    # with multithreading
-    with Pool() as p:
-        start_time = time.time()
-        res = sum(p.map(part1,blocks))
-        print(f"solution part1: {res} \n completed in {(time.time() - start_time)} seconds")
-
-        start_time = time.time()
-        res = sum(p.map(part2,blocks))
-        print(f"solution part2: {res} \n completed in {(time.time() - start_time)} seconds")
+    part(blocks, part1, False)
+    part(blocks,part2, False)
+    part(blocks,part1,True)
+    part(blocks,part2,True)

@@ -1,17 +1,15 @@
 
 import time
-def stop_time(argument):
-    def stop_time_decorator(f):
+def stop_time(f):
 
-        def wrapper(*args, **kwargs):
-            start_time = time.time()
-            res = f(*args, **kwargs)
-            print(f"solution part{argument}: {res} \n completed in {(time.time() - start_time)} seconds")
-            return res
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        res = f(*args, **kwargs)
+        print(f"solution: {res} \n completed in {(time.time() - start_time)} seconds")
+        return res
 
-        return wrapper
+    return wrapper
 
-    return stop_time_decorator
 
 def input(string=None, splitter = "\n"):
     if string:
