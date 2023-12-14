@@ -33,11 +33,6 @@ class Rocks(Enum):
     def __repr__(self) -> str:
         return self.to_char()
     
-class Direction(Enum):
-    North = 0
-    East = 1
-    South = 2
-    West = 3
 
 def parse(input_lines):
     column_list = [[] for x in range(len(input_lines[0]))]

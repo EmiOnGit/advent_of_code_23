@@ -11,7 +11,7 @@ def stop_time(f):
     return wrapper
 
 
-def input(string=None, splitter = "\n"):
+def split_input(string=None, splitter = "\n"):
     if string:
         return string.split(splitter)
     return open("input.txt", 'r').read().split(splitter)
