@@ -90,14 +90,12 @@ class BoxManager:
                 
             
 
-input = "rn=1,cm-,qp=3,cm=2,qp-,pc=4,ot=9,ab=5,pc-,pc=6,ot=7"
 # Part 1
-# parsed = parse(is_part_two=False)
-# print(hash_string(parsed))
+parsed = parse(is_part_two=False)
+print("part1 solution:",hash_string(parsed))
 # Part 2
 operations = parse(is_part_two=True)
 boxes = BoxManager()
 for operation in operations:
     boxes.apply(operation)
-print(boxes)
-print("sum:", boxes.sum())
+print("part2 solution:", boxes.sum())
