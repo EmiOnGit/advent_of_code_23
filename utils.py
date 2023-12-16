@@ -15,3 +15,8 @@ def split_input(string=None, splitter = "\n"):
     if string:
         return string.split(splitter)
     return open("input.txt", 'r').read().split(splitter)
+
+def print_matrix(matrix):
+    for row in matrix:
+        print(' '.join([str(element) for element in row]))
+
