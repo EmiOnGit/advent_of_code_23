@@ -14,7 +14,8 @@ def stop_time(f):
 def split_input(string=None, splitter = "\n"):
     if string:
         return string.split(splitter)
-    return open("input.txt", 'r').read().split(splitter)
+    return [x for x in open('input.txt', 'r').read().split(splitter) if x!='']
+     
 
 def print_matrix(matrix):
     for row in matrix:
