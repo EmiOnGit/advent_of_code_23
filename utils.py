@@ -11,10 +11,13 @@ def stop_time(f):
     return wrapper
 
 
-def split_input(string=None, splitter = "\n"):
+def split_input(string=None, splitter = "\n", remove_empty=False):
     if string:
         return string.split(splitter)
-    return [x for x in open('input.txt', 'r').read().split(splitter) if x!='']
+    if remove_empty:
+        return [x for x in open('input.txt', 'r').read().split(splitter) if x!='']
+    else:
+        return open('input.txt', 'r').read().split(splitter)
      
 
 def print_matrix(matrix):

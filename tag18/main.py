@@ -89,7 +89,7 @@ U 3 (#a77fa3)
 L 2 (#015232)
 U 2 (#7a21e3)"""
 
-s_input = split_input(input)
+s_input = split_input(input,remove_empty=True)
 print("Part 1:")
 part1(s_input)
 # part 1 correct, sample for part 2 correct, but not main input for part 2 (57196493937396 is too low)
